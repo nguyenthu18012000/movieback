@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @Override
+    public ResponseEntity<Object> findById(long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(user);
+    }
+
     @Override
     public ResponseEntity<Object> createUser(UserWriteRequest request) {
         UserEntity userEntity = new UserEntity();
